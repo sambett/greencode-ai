@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, Link } from 'framer-motion';
 
 const HeroStyled = styled.section`
   display: flex;
@@ -61,12 +61,12 @@ function Hero() {
         </motion.h1>
         <p>GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.</p>
         <div>
-          <motion.a href="#editor" className="btn btn-pulse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link to="/optimize" className="btn btn-pulse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             Try GreenCode AI
-          </motion.a>
-          <motion.a href="#" className="btn btn-secondary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          </Link>
+          <Link to="/docs" className="btn btn-secondary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             Learn More
-          </motion.a>
+          </Link>
         </div>
       </HeroContent>
       <HeroImage>
