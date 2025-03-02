@@ -46,130 +46,6 @@ const HeroContent = styled.div`
   }
 `;
 
-const MetricsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin: 30px 0;
-`;
-
-const MetricCard = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  position: relative;
-
-  .metric-title {
-    color: #2c3e50;
-    font-size: 14px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .metric-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2ecc71;
-    margin-bottom: 4px;
-  }
-
-  .metric-subtitle {
-    font-size: 12px;
-    color: #95a5a6;
-  }
-`;
-
-const GreenScoreCard = styled(MetricCard)`
-  .score-gauge {
-    width: 100px;
-    height: 50px;
-    margin: 0 auto 10px;
-    position: relative;
-    
-    svg {
-      transform: rotate(-90deg);
-    }
-  }
-
-  .score-value {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
-    font-size: 20px;
-    font-weight: bold;
-    color: #2ecc71;
-  }
-
-  .score-change {
-    color: #2ecc71;
-    font-size: 14px;
-  }
-`;
-
-const TipsSection = styled.div`
-  margin-top: 40px;
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-  .tips-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-
-    h2 {
-      font-size: 20px;
-      color: #2c3e50;
-    }
-
-    .view-all {
-      color: #2ecc71;
-      text-decoration: none;
-      font-size: 14px;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-`;
-
-const TipsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-`;
-
-const TipCard = styled.div`
-  padding: 16px;
-  border: 1px solid #e1e8e3;
-  border-radius: 8px;
-  background: #f8faf9;
-
-  .tip-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .tip-description {
-    font-size: 13px;
-    color: #7f8c8d;
-    line-height: 1.4;
-  }
-`;
-
 const HeroImage = styled.div`
   flex: 1;
   max-width: 45%;
@@ -199,87 +75,6 @@ function Hero() {
             Code Green, Save Earth
           </motion.h1>
           <p>GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.</p>
-          
-          <MetricsGrid>
-            <GreenScoreCard>
-              <div className="metric-title">GreenScore™</div>
-              <div className="score-gauge">
-                <svg width="100" height="100" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    fill="none"
-                    stroke="#e1e8e3"
-                    strokeWidth="10"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    fill="none"
-                    stroke="#2ecc71"
-                    strokeWidth="10"
-                    strokeDasharray={`${2.827 * 85} ${2.827 * (100 - 85)}`}
-                  />
-                </svg>
-                <div className="score-value">85/100</div>
-              </div>
-              <div className="score-change">+25 points</div>
-            </GreenScoreCard>
-            <MetricCard>
-              <div className="metric-title">Energy Usage</div>
-              <div className="metric-value">4.2J</div>
-              <div className="metric-subtitle">-58% from original</div>
-            </MetricCard>
-            <MetricCard>
-              <div className="metric-title">CO₂ Saved</div>
-              <div className="metric-value">3.8g</div>
-              <div className="metric-subtitle">This session</div>
-            </MetricCard>
-            <MetricCard>
-              <div className="metric-title">Execution Time</div>
-              <div className="metric-value">0.23s</div>
-              <div className="metric-subtitle">-65% improvement</div>
-            </MetricCard>
-          </MetricsGrid>
-
-          <TipsSection>
-            <div className="tips-header">
-              <h2>Sustainable Coding Tips</h2>
-              <Link to="/tips" className="view-all">View All Tips</Link>
-            </div>
-            <TipsGrid>
-              <TipCard>
-                <div className="tip-title">
-                  <span>🔄</span>
-                  List Comprehensions {'>'} Loops
-                </div>
-                <div className="tip-description">
-                  Python's list comprehensions are 20% more energy-efficient than loops.
-                </div>
-              </TipCard>
-              <TipCard>
-                <div className="tip-title">
-                  <span>📝</span>
-                  Minimize I/O Operations
-                </div>
-                <div className="tip-description">
-                  Batch I/O to reduce energy use by up to 30%.
-                </div>
-              </TipCard>
-              <TipCard>
-                <div className="tip-title">
-                  <span>⚡</span>
-                  Use Built-In Functions
-                </div>
-                <div className="tip-description">
-                  Optimized built-ins like 'map' save energy.
-                </div>
-              </TipCard>
-            </TipsGrid>
-          </TipsSection>
-
           <div>
             <MotionButton
               whileHover={{ scale: 1.05 }}
@@ -322,6 +117,8 @@ function Hero() {
             <circle cx="420" cy="200" r="30" fill="#f39c12" opacity="0.8" />
             <text x="420" y="207" fontSize="18" textAnchor="middle" fill="white">CO₂</text>
             <line x1="385" y1="200" x2="455" y2="200" stroke="#e74c3c" strokeWidth="3" />
+            <text x="250" y="320" fontSize="18" fontWeight="bold" textAnchor="middle" fill="#2c3e50">Green Code AI</text>
+            <text x="250" y="340" fontSize="12" textAnchor="middle" fill="#7f8c8d">Sustainable Coding for a Better Future</text>
           </svg>
         </HeroImage>
       </HeroStyled>
