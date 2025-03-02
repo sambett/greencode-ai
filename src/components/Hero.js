@@ -46,66 +46,6 @@ const HeroContent = styled.div`
   }
 `;
 
-const MetricsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin: 25px 0;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-`;
-
-const MetricCard = styled.div`
-  padding: 15px;
-  border-radius: 6px;
-  background: ${props => props.$isOptimized ? '#e8f7f0' : '#f8f9fa'};
-  border: 1px solid ${props => props.$isOptimized ? '#2ecc71' : '#dee2e6'};
-
-  h3 {
-    font-size: 16px;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .score {
-    font-size: 24px;
-    font-weight: bold;
-    color: ${props => props.$isOptimized ? '#27ae60' : '#95a5a6'};
-  }
-`;
-
-const SavingsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-top: 20px;
-`;
-
-const SavingItem = styled.div`
-  text-align: center;
-  padding: 12px;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
-  h4 {
-    font-size: 14px;
-    color: #7f8c8d;
-    margin-bottom: 8px;
-  }
-
-  .value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #27ae60;
-  }
-`;
-
 const HeroImage = styled.div`
   flex: 1;
   max-width: 45%;
@@ -135,28 +75,6 @@ function Hero() {
             Code Green, Save Earth
           </motion.h1>
           <p>GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.</p>
-          
-          <MetricsContainer>
-            <MetricCard>
-              <h3>Original GreenScore™</h3>
-              <div className="score">60/100</div>
-            </MetricCard>
-            <MetricCard $isOptimized>
-              <h3>Optimized GreenScore™</h3>
-              <div className="score">85/100</div>
-            </MetricCard>
-            <SavingsGrid>
-              <SavingItem>
-                <h4>Energy Saved</h4>
-                <div className="value">2.8 J</div>
-              </SavingItem>
-              <SavingItem>
-                <h4>CO₂ Saved</h4>
-                <div className="value">1.5 g</div>
-              </SavingItem>
-            </SavingsGrid>
-          </MetricsContainer>
-
           <div>
             <MotionButton
               whileHover={{ scale: 1.05 }}
@@ -199,6 +117,8 @@ function Hero() {
             <circle cx="420" cy="200" r="30" fill="#f39c12" opacity="0.8" />
             <text x="420" y="207" fontSize="18" textAnchor="middle" fill="white">CO₂</text>
             <line x1="385" y1="200" x2="455" y2="200" stroke="#e74c3c" strokeWidth="3" />
+            <text x="250" y="320" fontSize="18" fontWeight="bold" textAnchor="middle" fill="#2c3e50">Green Code AI</text>
+            <text x="250" y="340" fontSize="12" textAnchor="middle" fill="#7f8c8d">Sustainable Coding for a Better Future</text>
           </svg>
         </HeroImage>
       </HeroStyled>
