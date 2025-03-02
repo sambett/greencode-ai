@@ -1,314 +1,335 @@
-import React, { useState } from 'react';
-import MonacoEditor from '@monaco-editor/react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const EditorSection = styled(motion.section)`
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--card-shadow);
-  padding: 30px;
-  margin: 20px 0 40px 0;
-`;
-
-const EditorHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  
-  h2 {
-    font-size: 28px;
-    color: var(--dark);
-    font-weight: 600;
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    
-    h2 {
-      font-size: 24px;
-    }
-  }
-`;
-
-const EditorControls = styled.div`
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: space-between;
-  }
-`;
-
-const Dropdown = styled.select`
-  padding: 10px 15px;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid #ddd;
-  background-color: white;
-  font-family: 'Poppins', sans-serif;
-  color: var(--dark);
-  outline: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover, &:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
-  }
-`;
-
-const EditorContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  margin-bottom: 30px;
-  
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const EditorWrapper = styled.div`
-  height: 500px;
-  border-radius: var(--border-radius-sm);
-  overflow: hidden;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  position: relative;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    border-color: #ccc;
-  }
-`;
-
-const EditorLabel = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 6px 12px;
-  border-radius: var(--border-radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color: var(--dark);
-`;
-
-const EditorActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 30px 0;
-  
-  .optimize-btn {
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: 600;
-  }
-`;
-
-function CodeEditor() {
-  const [language, setLanguage] = useState('python');
-  const [code, setCode] = useState(`def calculate_values(data):
-    result = []
-    for item in data:
-        if item > 0:
-            result.append(item * 2)
-    total = 0
-    for r in result:
-        total += r
-    return result, total`);
+const ImprovedOptimizedCodeBlock = () => {
+  const [optimizationState, setOptimizationState] = useState('initial'); // 'initial', 'loading', 'complete'
   const [optimizedCode, setOptimizedCode] = useState('');
-  const [isOptimizing, setIsOptimizing] = useState(false);
-
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-    
-    // Set sample code based on language
-    if (e.target.value === 'javascript') {
-      setCode(`function calculateValues(data) {
-  const result = [];
-  for (let i = 0; i < data.length; i++) {
-    if (data[i] > 0) {
-      result.push(data[i] * 2);
-    }
-  }
-  let total = 0;
-  for (let j = 0; j < result.length; j++) {
-    total += result[j];
-  }
-  return [result, total];
-}`);
-      setOptimizedCode('');
-    } else if (e.target.value === 'python') {
-      setCode(`def calculate_values(data):
-    result = []
-    for item in data:
-        if item > 0:
-            result.append(item * 2)
-    total = 0
-    for r in result:
-        total += r
-    return result, total`);
-      setOptimizedCode('');
-    } else if (e.target.value === 'java') {
-      setCode(`public class Calculator {
-    public static Object[] calculateValues(int[] data) {
-        List<Integer> result = new ArrayList<>();
-        for (int item : data) {
-            if (item > 0) {
-                result.add(item * 2);
-            }
-        }
-        int total = 0;
-        for (int r : result) {
-            total += r;
-        }
-        return new Object[]{result, total};
-    }
-}`);
-      setOptimizedCode('');
-    } else if (e.target.value === 'cpp') {
-      setCode(`std::pair<std::vector<int>, int> calculateValues(const std::vector<int>& data) {
-    std::vector<int> result;
-    for (const auto& item : data) {
-        if (item > 0) {
-            result.push_back(item * 2);
-        }
-    }
-    int total = 0;
-    for (const auto& r : result) {
-        total += r;
-    }
-    return {result, total};
-}`);
-      setOptimizedCode('');
-    }
-  };
-
-  const handleOptimize = () => {
-    setIsOptimizing(true);
-    
-    // Simulate API call with timeout
-    setTimeout(() => {
-      if (language === 'javascript') {
-        setOptimizedCode(`function calculateValues(data) {
-  const result = data
-    .filter(item => item > 0)
-    .map(item => item * 2);
+  const [language, setLanguage] = useState('python');
   
-  const total = result.reduce((sum, item) => sum + item, 0);
-  return [result, total];
-}`);
-      } else if (language === 'python') {
-        setOptimizedCode(`def calculate_values(data):
+  // Simulate receiving code from parent component
+  useEffect(() => {
+    if (optimizationState === 'loading') {
+      const timer = setTimeout(() => {
+        const pythonOptimized = `def calculate_values(data):
     result = [item * 2 for item in data if item > 0]
     total = sum(result)
-    return result, total`);
-      } else if (language === 'java') {
-        setOptimizedCode(`public class Calculator {
-    public static Object[] calculateValues(int[] data) {
-        List<Integer> result = Arrays.stream(data)
-            .filter(item -> item > 0)
-            .map(item -> item * 2)
-            .boxed()
-            .collect(Collectors.toList());
+    return result, total`;
         
-        int total = result.stream().mapToInt(Integer::intValue).sum();
-        return new Object[]{result, total};
-    }
-}`);
-      } else if (language === 'cpp') {
-        setOptimizedCode(`std::pair<std::vector<int>, int> calculateValues(const std::vector<int>& data) {
-    std::vector<int> result;
-    result.reserve(data.size());
-    
-    std::copy_if(data.begin(), data.end(), 
-                 std::back_inserter(result),
-                 [](int i) { return i > 0; });
-    
-    std::transform(result.begin(), result.end(), 
-                   result.begin(),
-                   [](int i) { return i * 2; });
-    
-    int total = std::accumulate(result.begin(), result.end(), 0);
-    return {result, total};
-}`);
-      }
+        setOptimizedCode(pythonOptimized);
+        setOptimizationState('complete');
+      }, 2000);
       
-      setIsOptimizing(false);
-    }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [optimizationState]);
+  
+  const handleOptimizeClick = () => {
+    setOptimizationState('loading');
+  };
+  
+  // Function to render placeholder content
+  const renderPlaceholderContent = () => {
+    if (optimizationState === 'initial') {
+      return (
+        <motion.div 
+          className="placeholder"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="placeholder-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2">
+              <path d="M7 17c0-3 2-5 8-5s8 2 8 5a3 3 0 0 1-3 3c-2.8 0-5-1.8-5-4" />
+              <path d="M16 10c0 2.8-4 5-4-1-1 0-4 1-4 3-1 .5-2 1-2 2" />
+              <path d="M12 19c-2 0-4.5-1-8-5 2 0 3 .5 4 2 2 0 3 1 4 3Z" />
+            </svg>
+          </div>
+          <p>Click <span className="highlight">'Optimize Code'</span> to see your optimized code here!</p>
+          <div className="placeholder-grid"></div>
+        </motion.div>
+      );
+    } else if (optimizationState === 'loading') {
+      return (
+        <motion.div 
+          className="loading"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="spinner"></div>
+          <p>Optimizing your code for sustainability...</p>
+          <div className="progress-bar">
+            <motion.div 
+              className="progress"
+              initial={{ width: 0 }}
+              animate={{ width: '100%' }}
+              transition={{ duration: 1.8 }}
+            ></motion.div>
+          </div>
+        </motion.div>
+      );
+    }
+    return null;
   };
 
+  // Function to format code with proper indentation and syntax highlighting
+  const formatCode = (code) => {
+    if (!code) return [];
+    
+    return code.split('\n').map((line, index) => {
+      const indentMatch = line.match(/^(\s+)/);
+      const indentClass = indentMatch 
+        ? `indent-${Math.floor(indentMatch[0].length / 4)}` 
+        : '';
+      
+      // Simple syntax highlighting (could be expanded)
+      const highlightedLine = line
+        .replace(/def\s+([a-zA-Z0-9_]+)/g, '<span class="keyword">def</span> <span class="function">$1</span>')
+        .replace(/return\s+/g, '<span class="keyword">return</span> ')
+        .replace(/if\s+/g, '<span class="keyword">if</span> ')
+        .replace(/for\s+/g, '<span class="keyword">for</span> ')
+        .replace(/in\s+/g, '<span class="keyword">in</span> ')
+        .replace(/sum\(/g, '<span class="function">sum</span>(')
+        .replace(/\[\s*([^\]]*)\s*\]/g, '[<span class="value">$1</span>]');
+      
+      return (
+        <div 
+          key={index} 
+          className={`code-line ${indentClass}`}
+          dangerouslySetInnerHTML={{ __html: highlightedLine }}
+        />
+      );
+    });
+  };
+  
   return (
-    <EditorSection
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <EditorHeader>
-        <h2>Optimize Your Code</h2>
-        <EditorControls>
-          <label htmlFor="language-select">Language:</label>
-          <Dropdown 
-            id="language-select"
-            value={language} 
-            onChange={handleLanguageChange}
-          >
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-            <option value="java">Java</option>
-            <option value="cpp">C++</option>
-          </Dropdown>
-        </EditorControls>
-      </EditorHeader>
+    <div className="optimized-editor-wrapper">
+      <div className="editor-label">Optimized Code</div>
       
-      <EditorContainer>
-        <EditorWrapper>
-          <EditorLabel>Your Code</EditorLabel>
-          <MonacoEditor
-            height="100%"
-            language={language}
-            value={code}
-            onChange={(value) => setCode(value || '')}
-            theme="vs-dark"
-            options={{
-              fontSize: 14,
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              automaticLayout: true
-            }}
-          />
-        </EditorWrapper>
+      {optimizationState !== 'complete' ? (
+        <div className="placeholder-container">
+          {renderPlaceholderContent()}
+        </div>
+      ) : (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="code-editor"
+        >
+          <pre>
+            {formatCode(optimizedCode)}
+          </pre>
+          <div className="optimization-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>85% More Efficient</span>
+          </div>
+        </motion.div>
+      )}
+      
+      {/* Styling for the component */}
+      <style jsx>{`
+        .optimized-editor-wrapper {
+          height: 500px;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #4CAF50;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+          position: relative;
+          transition: all 0.3s ease;
+          background-color: #1a1a1a;
+        }
         
-        <EditorWrapper>
-          <EditorLabel>Optimized Code</EditorLabel>
-          <MonacoEditor
-            height="100%"
-            language={language}
-            value={optimizedCode}
-            theme="vs-dark"
-            options={{
-              fontSize: 14,
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              readOnly: true,
-              automaticLayout: true
-            }}
-          />
-        </EditorWrapper>
-      </EditorContainer>
+        .optimized-editor-wrapper:hover {
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .editor-label {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 6px 12px;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 600;
+          z-index: 10;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          color: #2c3e50;
+        }
+        
+        .placeholder-container {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-align: center;
+          padding: 20px;
+        }
+        
+        .placeholder, .loading {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 300px;
+        }
+        
+        .placeholder p, .loading p {
+          color: rgba(255, 255, 255, 0.7);
+          margin: 15px 0;
+          font-size: 16px;
+          line-height: 1.5;
+        }
+        
+        .highlight {
+          color: #4CAF50;
+          font-weight: 600;
+        }
+        
+        .placeholder-icon {
+          margin-bottom: 10px;
+          opacity: 0.8;
+        }
+        
+        .placeholder-grid {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+          background-size: 20px 20px;
+          background-position: center center;
+          z-index: -1;
+          opacity: 0.5;
+        }
+        
+        .spinner {
+          width: 40px;
+          height: 40px;
+          border: 3px solid rgba(76, 175, 80, 0.3);
+          border-radius: 50%;
+          border-top-color: #4CAF50;
+          animation: spin 1s linear infinite;
+          margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+          width: 100%;
+          height: 6px;
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 3px;
+          overflow: hidden;
+          margin-top: 15px;
+        }
+        
+        .progress {
+          height: 100%;
+          background: linear-gradient(to right, #4CAF50, #2E7D32);
+          border-radius: 3px;
+        }
+        
+        .code-editor {
+          height: 100%;
+          position: relative;
+          overflow: auto;
+          font-family: 'Courier New', monospace;
+          padding: 40px 15px 15px 15px;
+        }
+        
+        pre {
+          margin: 0;
+          color: #e0e0e0;
+          font-size: 14px;
+        }
+        
+        .code-line {
+          line-height: 1.5;
+          white-space: pre;
+        }
+        
+        .indent-0 { padding-left: 0; }
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 40px; }
+        .indent-3 { padding-left: 60px; }
+        
+        .keyword { color: #569CD6; }
+        .function { color: #DCDCAA; }
+        .value { color: #CE9178; }
+        .comment { color: #6A9955; }
+        
+        .optimization-badge {
+          position: absolute;
+          bottom: 15px;
+          right: 15px;
+          background-color: rgba(76, 175, 80, 0.9);
+          color: white;
+          padding: 6px 12px;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// This would be your real component using the improved optimized code block
+const CodeEditor = () => {
+  const [isOptimizing, setIsOptimizing] = useState(false);
+  const [optimizationState, setOptimizationState] = useState('initial');
+  
+  const handleOptimize = () => {
+    setIsOptimizing(true);
+    setOptimizationState('loading');
+    
+    setTimeout(() => {
+      setOptimizationState('complete');
+      setIsOptimizing(false);
+    }, 2000);
+  };
+  
+  return (
+    <div className="editor-section">
+      <h2>Optimize Your Code</h2>
       
-      <EditorActions>
+      <div className="editor-container">
+        <div className="editor-wrapper">
+          <div className="editor-label">Your Code</div>
+          <div className="code-editor">
+            <pre>
+              <div className="code-line"><span className="keyword">def</span> <span className="function">calculate_values</span>(data):</div>
+              <div className="code-line indent-1">result = []</div>
+              <div className="code-line indent-1"><span className="keyword">for</span> item <span className="keyword">in</span> data:</div>
+              <div className="code-line indent-2"><span className="keyword">if</span> item {'>'} 0:</div>
+              <div className="code-line indent-3">result.append(item * 2)</div>
+              <div className="code-line indent-1">total = 0</div>
+              <div className="code-line indent-1"><span className="keyword">for</span> r <span className="keyword">in</span> result:</div>
+              <div className="code-line indent-2">total += r</div>
+              <div className="code-line indent-1"><span className="keyword">return</span> result, total</div>
+            </pre>
+          </div>
+        </div>
+        
+        <ImprovedOptimizedCodeBlock />
+      </div>
+      
+      <div className="editor-actions">
         <motion.button
-          className="btn optimize-btn"
+          className="optimize-btn"
           onClick={handleOptimize}
           whileHover={{ scale: 1.05, boxShadow: "0 8px 15px rgba(46, 204, 113, 0.4)" }}
           whileTap={{ scale: 0.95 }}
@@ -317,9 +338,126 @@ function CodeEditor() {
         >
           {isOptimizing ? "Optimizing..." : "Optimize Code"}
         </motion.button>
-      </EditorActions>
-    </EditorSection>
+      </div>
+      
+      <style jsx>{`
+        .editor-section {
+          background-color: white;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          padding: 30px;
+          margin: 20px 0 40px 0;
+        }
+        
+        h2 {
+          font-size: 28px;
+          color: #2c3e50;
+          font-weight: 600;
+          margin-bottom: 25px;
+        }
+        
+        .editor-container {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 30px;
+          margin-bottom: 30px;
+        }
+        
+        .editor-wrapper {
+          height: 500px;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #e0e0e0;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+          position: relative;
+          transition: all 0.3s ease;
+          background-color: #1a1a1a;
+        }
+        
+        .editor-wrapper:hover {
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .editor-label {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 6px 12px;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 600;
+          z-index: 10;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          color: #2c3e50;
+        }
+        
+        .code-editor {
+          height: 100%;
+          position: relative;
+          overflow: auto;
+          font-family: 'Courier New', monospace;
+          padding: 40px 15px 15px 15px;
+        }
+        
+        pre {
+          margin: 0;
+          color: #e0e0e0;
+          font-size: 14px;
+        }
+        
+        .code-line {
+          line-height: 1.5;
+          white-space: pre;
+        }
+        
+        .indent-1 {
+          padding-left: 20px;
+        }
+        
+        .indent-2 {
+          padding-left: 40px;
+        }
+        
+        .indent-3 {
+          padding-left: 60px;
+        }
+        
+        .keyword {
+          color: #569CD6;
+        }
+        
+        .function {
+          color: #DCDCAA;
+        }
+        
+        .editor-actions {
+          display: flex;
+          justify-content: center;
+          margin: 30px 0;
+        }
+        
+        .optimize-btn {
+          padding: 12px 30px;
+          font-size: 16px;
+          font-weight: 600;
+          background-color: #2ecc71;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+        }
+        
+        .optimize-btn:hover {
+          background-color: #27ae60;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 15px rgba(46, 204, 113, 0.3);
+        }
+      `}</style>
+    </div>
   );
-}
+};
 
 export default CodeEditor;
