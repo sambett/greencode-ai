@@ -62,7 +62,7 @@ function Hero() {
         </motion.h1>
         <p>GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.</p>
         <div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ display: 'inline-block' }}>
             <Link to="/optimize" className="btn btn-pulse">
               Try GreenCode AI
             </Link>
