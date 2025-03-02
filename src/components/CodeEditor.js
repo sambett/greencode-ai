@@ -3,264 +3,321 @@ import MonacoEditor from '@monaco-editor/react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const EditorSection = styled.section`
+const EditorSection = styled(motion.section)`
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 40px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 30px;
+  margin: 20px 0 40px 0;
 `;
 
 const EditorHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
+  
   h2 {
-    font-size: 24px;
+    font-size: 28px;
     color: var(--dark);
+    font-weight: 600;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    
+    h2 {
+      font-size: 24px;
+    }
   }
 `;
 
 const EditorControls = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 const Dropdown = styled.select`
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: var(--border-radius-sm);
   border: 1px solid #ddd;
   background-color: white;
+  font-family: 'Poppins', sans-serif;
+  color: var(--dark);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover, &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+  }
 `;
 
-const EditorsContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+const EditorContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 30px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const EditorWrapper = styled.div`
-  flex: 1;
-  height: 400px;
-  border-radius: 8px;
+  height: 500px;
+  border-radius: var(--border-radius-sm);
   overflow: hidden;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   position: relative;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #ccc;
+  }
 `;
 
 const EditorLabel = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
   z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: var(--dark);
 `;
 
 const EditorActions = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-`;
-
-const MetricsPanel = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 30px;
-`;
-
-const MetricCard = styled(motion.div)`
-  flex: 1;
-  background: radial-gradient(circle, var(--primary-light), white);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  position: relative;
-`;
-
-const MetricIcon = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: var(--primary);
-  opacity: 0.3;
-`;
-
-const MetricTitle = styled.div`
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 5px;
-`;
-
-const MetricValue = styled.div`
-  font-size: 32px;
-  font-weight: bold;
-  color: var(--dark);
-  margin-bottom: 5px;
-`;
-
-const MetricChange = styled.div`
-  font-size: 14px;
-  color: var(--success);
-`;
-
-const GaugeContainer = styled.div`
-  position: relative;
-  width: 200px;
-  height: 100px;
-  margin: 0 auto 15px;
-`;
-
-const GaugeValue = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
+  margin: 30px 0;
+  
+  .optimize-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+  }
 `;
 
 function CodeEditor() {
-  const [code, setCode] = useState(`def calculate_values(data):\n    result = []\n    for item in data:\n        if item > 0:\n            result.append(item * 2)\n    total = 0\n    for r in result:\n        total += r\n    return result, total`);
+  const [language, setLanguage] = useState('python');
+  const [code, setCode] = useState(`def calculate_values(data):
+    result = []
+    for item in data:
+        if item > 0:
+            result.append(item * 2)
+    total = 0
+    for r in result:
+        total += r
+    return result, total`);
   const [optimizedCode, setOptimizedCode] = useState('');
-  const [originalScore, setOriginalScore] = useState(60); // Mock initial GreenScore
-  const [optimizedScore, setOptimizedScore] = useState(85); // Mock optimized GreenScore
-  const [energySaved, setEnergySaved] = useState('2.8 J'); // Mock energy savings
-  const [co2Saved, setCo2Saved] = useState('1.5 g'); // Mock CO₂ savings
+  const [isOptimizing, setIsOptimizing] = useState(false);
+
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+    
+    // Set sample code based on language
+    if (e.target.value === 'javascript') {
+      setCode(`function calculateValues(data) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    if (data[i] > 0) {
+      result.push(data[i] * 2);
+    }
+  }
+  let total = 0;
+  for (let j = 0; j < result.length; j++) {
+    total += result[j];
+  }
+  return [result, total];
+}`);
+      setOptimizedCode('');
+    } else if (e.target.value === 'python') {
+      setCode(`def calculate_values(data):
+    result = []
+    for item in data:
+        if item > 0:
+            result.append(item * 2)
+    total = 0
+    for r in result:
+        total += r
+    return result, total`);
+      setOptimizedCode('');
+    } else if (e.target.value === 'java') {
+      setCode(`public class Calculator {
+    public static Object[] calculateValues(int[] data) {
+        List<Integer> result = new ArrayList<>();
+        for (int item : data) {
+            if (item > 0) {
+                result.add(item * 2);
+            }
+        }
+        int total = 0;
+        for (int r : result) {
+            total += r;
+        }
+        return new Object[]{result, total};
+    }
+}`);
+      setOptimizedCode('');
+    } else if (e.target.value === 'cpp') {
+      setCode(`std::pair<std::vector<int>, int> calculateValues(const std::vector<int>& data) {
+    std::vector<int> result;
+    for (const auto& item : data) {
+        if (item > 0) {
+            result.push_back(item * 2);
+        }
+    }
+    int total = 0;
+    for (const auto& r : result) {
+        total += r;
+    }
+    return {result, total};
+}`);
+      setOptimizedCode('');
+    }
+  };
 
   const handleOptimize = () => {
-    setOptimizedCode(`def calculate_values(data):\n    result = [item * 2 for item in data if item > 0]\n    total = sum(result)\n    return result, total`);
-    // Mock updates for metrics (replace with API later)
-    setOptimizedScore(85);
-    setEnergySaved('2.8 J');
-    setCo2Saved('1.5 g');
+    setIsOptimizing(true);
+    
+    // Simulate API call with timeout
+    setTimeout(() => {
+      if (language === 'javascript') {
+        setOptimizedCode(`function calculateValues(data) {
+  const result = data
+    .filter(item => item > 0)
+    .map(item => item * 2);
+  
+  const total = result.reduce((sum, item) => sum + item, 0);
+  return [result, total];
+}`);
+      } else if (language === 'python') {
+        setOptimizedCode(`def calculate_values(data):
+    result = [item * 2 for item in data if item > 0]
+    total = sum(result)
+    return result, total`);
+      } else if (language === 'java') {
+        setOptimizedCode(`public class Calculator {
+    public static Object[] calculateValues(int[] data) {
+        List<Integer> result = Arrays.stream(data)
+            .filter(item -> item > 0)
+            .map(item -> item * 2)
+            .boxed()
+            .collect(Collectors.toList());
+        
+        int total = result.stream().mapToInt(Integer::intValue).sum();
+        return new Object[]{result, total};
+    }
+}`);
+      } else if (language === 'cpp') {
+        setOptimizedCode(`std::pair<std::vector<int>, int> calculateValues(const std::vector<int>& data) {
+    std::vector<int> result;
+    result.reserve(data.size());
+    
+    std::copy_if(data.begin(), data.end(), 
+                 std::back_inserter(result),
+                 [](int i) { return i > 0; });
+    
+    std::transform(result.begin(), result.end(), 
+                   result.begin(),
+                   [](int i) { return i * 2; });
+    
+    int total = std::accumulate(result.begin(), result.end(), 0);
+    return {result, total};
+}`);
+      }
+      
+      setIsOptimizing(false);
+    }, 1500);
   };
 
   return (
-    <EditorSection as={motion.section} initial={{ y: 50 }} animate={{ y: 0 }} transition={{ duration: 0.5 }}>
+    <EditorSection
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       <EditorHeader>
         <h2>Optimize Your Code</h2>
         <EditorControls>
-          <Dropdown>
-            <option>JavaScript</option>
-            <option>Python</option>
-            <option>Java</option>
-            <option>C++</option>
+          <label htmlFor="language-select">Language:</label>
+          <Dropdown 
+            id="language-select"
+            value={language} 
+            onChange={handleLanguageChange}
+          >
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
           </Dropdown>
         </EditorControls>
       </EditorHeader>
-      <EditorsContainer>
+      
+      <EditorContainer>
         <EditorWrapper>
           <EditorLabel>Your Code</EditorLabel>
           <MonacoEditor
             height="100%"
-            defaultLanguage="python"
+            language={language}
             value={code}
             onChange={(value) => setCode(value || '')}
             theme="vs-dark"
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              automaticLayout: true
+            }}
           />
         </EditorWrapper>
+        
         <EditorWrapper>
           <EditorLabel>Optimized Code</EditorLabel>
           <MonacoEditor
             height="100%"
-            defaultLanguage="python"
+            language={language}
             value={optimizedCode}
             theme="vs-dark"
-            options={{ readOnly: true }}
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              readOnly: true,
+              automaticLayout: true
+            }}
           />
         </EditorWrapper>
-      </EditorsContainer>
+      </EditorContainer>
+      
       <EditorActions>
-        <motion.button className="btn" onClick={handleOptimize} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          Optimize Code
+        <motion.button
+          className="btn optimize-btn"
+          onClick={handleOptimize}
+          whileHover={{ scale: 1.05, boxShadow: "0 8px 15px rgba(46, 204, 113, 0.4)" }}
+          whileTap={{ scale: 0.95 }}
+          animate={isOptimizing ? { scale: [1, 1.03, 1], transition: { repeat: Infinity, duration: 1 } } : {}}
+          disabled={isOptimizing}
+        >
+          {isOptimizing ? "Optimizing..." : "Optimize Code"}
         </motion.button>
       </EditorActions>
-      <MetricsPanel>
-        <MetricCard whileHover={{ y: -5 }}>
-          <MetricIcon>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-              <path d="M14.83 9.17a4 4 0 1 1-4.83 4.83" />
-              <path d="M12 6v2" />
-              <path d="M16.24 7.76l-1.42 1.42" />
-              <path d="M18 12h-2" />
-            </svg>
-          </MetricIcon>
-          <MetricTitle>Original GreenScore™</MetricTitle>
-          <GaugeContainer>
-            <svg viewBox="0 0 200 100">
-              <path d="M20 90 A 80 80 0 0 1 180 90" fill="none" stroke="#eee" strokeWidth="20" />
-              <motion.path
-                d="M20 90 A 80 80 0 0 1 180 90"
-                fill="none"
-                stroke="#2ecc71"
-                strokeWidth="20"
-                initial={{ strokeDasharray: "0 100" }}
-                animate={{ strokeDasharray: `${originalScore} 100` }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-              />
-              <path d="M100 20 C95 30 95 40 100 45 C105 40 105 30 100 20" fill="#2ecc71" />
-            </svg>
-            <GaugeValue>{originalScore}/100</GaugeValue>
-          </GaugeContainer>
-        </MetricCard>
-        <MetricCard whileHover={{ y: -5 }}>
-          <MetricIcon>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-              <path d="M14.83 9.17a4 4 0 1 1-4.83 4.83" />
-              <path d="M12 6v2" />
-              <path d="M16.24 7.76l-1.42 1.42" />
-              <path d="M18 12h-2" />
-            </svg>
-          </MetricIcon>
-          <MetricTitle>Optimized GreenScore™</MetricTitle>
-          <GaugeContainer>
-            <svg viewBox="0 0 200 100">
-              <path d="M20 90 A 80 80 0 0 1 180 90" fill="none" stroke="#eee" strokeWidth="20" />
-              <motion.path
-                d="M20 90 A 80 80 0 0 1 180 90"
-                fill="none"
-                stroke="#2ecc71"
-                strokeWidth="20"
-                initial={{ strokeDasharray: "0 100" }}
-                animate={{ strokeDasharray: `${optimizedScore} 100` }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-              />
-              <path d="M100 20 C95 30 95 40 100 45 C105 40 105 30 100 20" fill="#2ecc71" />
-            </svg>
-            <GaugeValue>{optimizedScore}/100</GaugeValue>
-          </GaugeContainer>
-        </MetricCard>
-        <MetricCard whileHover={{ y: -5 }}>
-          <MetricIcon>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          </MetricIcon>
-          <MetricTitle>Energy Saved</MetricTitle>
-          <MetricValue>{energySaved}</MetricValue>
-        </MetricCard>
-        <MetricCard whileHover={{ y: -5 }}>
-          <MetricIcon>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M2 22c1.25-1.67 2.83-3 5-4 1.7-1 3.33-1 5-1 1.67 0 3.3 0 5 1 2.17 1 3.75 2.33 5 4" />
-              <path d="M12 2a8 8 0 0 1 8 8 12.34 12.34 0 0 1-.71 4.29" />
-              <path d="M12 2a8 8 0 0 0-8 8c0 1.4.2 2.7.56 4" />
-              <path d="M13.73 21a1.75 1.75 0 1 0-3.46 0" />
-            </svg>
-          </MetricIcon>
-          <MetricTitle>CO₂ Saved</MetricTitle>
-          <MetricValue>{co2Saved}</MetricValue>
-        </MetricCard>
-      </MetricsPanel>
     </EditorSection>
   );
 }

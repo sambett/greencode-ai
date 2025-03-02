@@ -1,18 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const HeroStyled = styled(motion.section)`
+const HeroSection = styled(motion.section)`
   display: flex;
-  gap: 30px;
+  gap: 40px;
   align-items: center;
-  margin-bottom: 40px;
-  background: linear-gradient(135deg, #f0fff4 0%, #ecf0f1 100%);
-  border-radius: 12px;
-  padding: 30px;
+  margin: 20px 0 60px 0;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--background) 100%);
+  border-radius: var(--border-radius);
+  padding: 60px 40px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--card-shadow);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
 
   &::before {
     content: '';
@@ -30,99 +36,276 @@ const HeroContent = styled.div`
   flex: 1;
   position: relative;
   z-index: 1;
+  
   h1 {
-    font-size: 48px;
-    margin-bottom: 15px;
+    font-size: 54px;
+    margin-bottom: 25px;
     color: var(--dark);
     line-height: 1.2;
     font-weight: 800;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    @media (max-width: 768px) {
+      font-size: 36px;
+      text-align: center;
+    }
   }
+  
   p {
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 1.7;
     color: #555;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
+    max-width: 90%;
+    
+    @media (max-width: 768px) {
+      font-size: 16px;
+      text-align: center;
+      max-width: 100%;
+    }
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 15px;
+    
+    @media (max-width: 768px) {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   }
 `;
 
-const HeroImage = styled.div`
+const HeroImageContainer = styled(motion.div)`
   flex: 1;
-  max-width: 45%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  
+  @media (max-width: 768px) {
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  svg {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(46, 204, 113, 0.2));
+  }
 `;
 
-const MotionButton = styled(motion.div)`
-  display: inline-block;
-  margin-left: ${props => props.$isSecond ? '10px' : '0'};
-`;
+const gradientVariants = {
+  animate: {
+    background: [
+      "linear-gradient(135deg, #eaffef 0%, #f9f9f9 100%)",
+      "linear-gradient(135deg, #f0fff4 0%, #f9f9f9 100%)",
+      "linear-gradient(135deg, #eaffef 0%, #f9f9f9 100%)"
+    ],
+    transition: {
+      duration: 5,
+      repeat: Infinity,
+      repeatType: "reverse"
+    }
+  }
+};
+
+const codeLineVariants = {
+  initial: {
+    opacity: 0,
+    x: -20
+  },
+  animate: i => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 0.5 + (i * 0.1)
+    }
+  }),
+};
 
 function Hero() {
   return (
-    <AnimatePresence>
-      <HeroStyled
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+    <HeroSection
+      initial={{ opacity: 0 }}
+      animate={{ 
+        opacity: 1,
+        ...gradientVariants.animate 
+      }}
+      transition={{ duration: 0.8 }}
+    >
+      <HeroContent>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          Code Green, Save Earth
+        </motion.h1>
+        
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.
+        </motion.p>
+        
+        <motion.div 
+          className="hero-buttons"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link to="/optimize" className="btn btn-pulse">
+              Try GreenCode AI
+            </Link>
+          </motion.div>
+          
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link to="/docs" className="btn btn-secondary">
+              Learn More
+            </Link>
+          </motion.div>
+        </motion.div>
+      </HeroContent>
+      
+      <HeroImageContainer
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <HeroContent>
-          <motion.h1
-            initial={{ x: -50 }}
-            animate={{ x: 0 }}
-            transition={{ duration: 0.6 }}
+        <svg width="500" height="350" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+          {/* Monitor and Frame */}
+          <motion.rect 
+            width="380" height="250" x="60" y="30" rx="10" 
+            fill="#2c3e50" 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          />
+          <motion.rect 
+            width="350" height="200" x="75" y="50" rx="5" 
+            fill="#34495e"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+          />
+          
+          {/* Stand */}
+          <motion.path
+            d="M220 280 L280 280 L270 330 L230 330 Z"
+            fill="#2c3e50"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+          />
+          <motion.ellipse 
+            cx="250" cy="330" rx="60" ry="10" 
+            fill="#2c3e50" 
+            opacity="0.5"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.5, scale: 1 }}
+            transition={{ delay: 1.1, duration: 0.5 }}
+          />
+          
+          {/* Code Lines */}
+          <motion.rect 
+            custom={0}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="250" height="10" x="95" y="70" rx="2" 
+            fill="#2ecc71" opacity="0.9" 
+          />
+          <motion.rect 
+            custom={1}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="200" height="10" x="95" y="90" rx="2" 
+            fill="#ecf0f1" opacity="0.5" 
+          />
+          <motion.rect 
+            custom={2}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="230" height="10" x="95" y="110" rx="2" 
+            fill="#ecf0f1" opacity="0.5" 
+          />
+          <motion.rect 
+            custom={3}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="180" height="10" x="95" y="130" rx="2" 
+            fill="#e74c3c" opacity="0.7" 
+          />
+          <motion.rect 
+            custom={4}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="250" height="10" x="95" y="150" rx="2" 
+            fill="#ecf0f1" opacity="0.5" 
+          />
+          <motion.rect 
+            custom={5}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="150" height="10" x="95" y="170" rx="2" 
+            fill="#2ecc71" opacity="0.9" 
+          />
+          <motion.rect 
+            custom={6}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="200" height="10" x="95" y="190" rx="2" 
+            fill="#ecf0f1" opacity="0.5" 
+          />
+          <motion.rect 
+            custom={7}
+            variants={codeLineVariants}
+            initial="initial"
+            animate="animate"
+            width="230" height="10" x="95" y="210" rx="2" 
+            fill="#ecf0f1" opacity="0.5" 
+          />
+          
+          {/* Green Energy Elements */}
+          <motion.g
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
           >
-            Code Green, Save Earth
-          </motion.h1>
-          <p>GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.</p>
-          <div>
-            <MotionButton
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link to="/optimize" className="btn btn-pulse">
-                Try GreenCode AI
-              </Link>
-            </MotionButton>
-            <MotionButton
-              $isSecond
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link to="/docs" className="btn btn-secondary">
-                Learn More
-              </Link>
-            </MotionButton>
-          </div>
-        </HeroContent>
-        <HeroImage>
-          <svg width="500" height="350" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
-            <rect width="500" height="350" rx="10" fill="#f0fff4" />
-            <rect x="100" y="50" width="300" height="200" rx="5" fill="#2c3e50" />
-            <rect x="110" y="60" width="280" height="170" rx="2" fill="#34495e" />
-            <rect x="125" y="80" width="250" height="10" rx="2" fill="#2ecc71" opacity="0.7" />
-            <rect x="125" y="100" width="200" height="10" rx="2" fill="#ecf0f1" opacity="0.5" />
-            <rect x="125" y="120" width="220" height="10" rx="2" fill="#ecf0f1" opacity="0.5" />
-            <rect x="125" y="140" width="180" height="10" rx="2" fill="#e74c3c" opacity="0.7" />
-            <rect x="125" y="160" width="250" height="10" rx="2" fill="#ecf0f1" opacity="0.5" />
-            <rect x="125" y="180" width="150" height="10" rx="2" fill="#2ecc71" opacity="0.7" />
-            <rect x="220" y="250" width="60" height="10" rx="2" fill="#7f8c8d" />
-            <rect x="235" y="260" width="30" height="20" rx="2" fill="#7f8c8d" />
-            <ellipse cx="250" cy="290" rx="50" ry="10" fill="#bdc3c7" opacity="0.5" />
+            {/* Leaf */}
+            <path d="M60 110 Q 90 70, 80 130 Q 50 90, 60 110" fill="#2ecc71" />
+            <path d="M50 180 Q 80 140, 70 200 Q 40 160, 50 180" fill="#2ecc71" />
+            
+            {/* Green Energy Waves */}
             <path d="M370 130 C 380 80, 430 80, 440 130" stroke="#2ecc71" strokeWidth="3" fill="none" />
             <path d="M380 120 C 390 80, 420 80, 430 120" stroke="#2ecc71" strokeWidth="3" fill="none" />
             <path d="M390 110 C 400 80, 410 80, 420 110" stroke="#2ecc71" strokeWidth="3" fill="none" />
-            <path d="M60 110 Q 90 70, 80 130 Q 50 90, 60 110" fill="#2ecc71" />
-            <path d="M50 180 Q 80 140, 70 200 Q 40 160, 50 180" fill="#2ecc71" />
-            <circle cx="420" cy="200" r="30" fill="#f39c12" opacity="0.8" />
-            <text x="420" y="207" fontSize="18" textAnchor="middle" fill="white">CO₂</text>
-            <line x1="385" y1="200" x2="455" y2="200" stroke="#e74c3c" strokeWidth="3" />
-            <text x="250" y="320" fontSize="18" fontWeight="bold" textAnchor="middle" fill="#2c3e50">Green Code AI</text>
-            <text x="250" y="340" fontSize="12" textAnchor="middle" fill="#7f8c8d">Sustainable Coding for a Better Future</text>
-          </svg>
-        </HeroImage>
-      </HeroStyled>
-    </AnimatePresence>
+            
+            {/* CO2 Reduction Symbol */}
+            <motion.g
+              initial={{ y: 10 }}
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+            >
+              <circle cx="420" cy="200" r="30" fill="#f39c12" opacity="0.8" />
+              <text x="420" y="207" fontSize="18" textAnchor="middle" fill="white">CO₂</text>
+              <line x1="385" y1="200" x2="455" y2="200" stroke="#e74c3c" strokeWidth="3" />
+            </motion.g>
+          </motion.g>
+        </svg>
+      </HeroImageContainer>
+    </HeroSection>
   );
 }
 
