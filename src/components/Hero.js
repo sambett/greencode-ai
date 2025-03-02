@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion, Link } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const HeroStyled = styled.section`
   display: flex;
