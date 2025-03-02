@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import styled from 'styled-components';
-import { motion, Link } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const EditorSection = styled.section`
   background-color: white;
