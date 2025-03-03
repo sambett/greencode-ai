@@ -341,12 +341,12 @@ const ImprovedHero = () => {
             <h1>{slides[activeSlide].title}</h1>
             <p>{slides[activeSlide].description}</p>
             <div className="hero-buttons">
-              <motion.button className="btn btn-pulse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.a href="/optimize" className="btn btn-pulse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 Try GreenCode AI
-              </motion.button>
-              <motion.button className="btn btn-secondary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              </motion.a>
+              <motion.a href="/docs" className="btn btn-secondary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 Learn More
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -399,13 +399,15 @@ const ImprovedHero = () => {
           flex: 1;
           position: relative;
           z-index: 1;
+          height: 280px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
         
         .slide-content {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
+          position: relative;
+          width: 100%;
         }
         
         h1 {
@@ -438,6 +440,9 @@ const ImprovedHero = () => {
           cursor: pointer;
           border: none;
           transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
         }
         
         .btn-pulse {
@@ -510,6 +515,11 @@ const ImprovedHero = () => {
             padding: 40px 20px;
           }
           
+          .hero-content {
+            height: auto;
+            margin-bottom: 30px;
+          }
+          
           h1 {
             font-size: 36px;
             text-align: center;
@@ -527,7 +537,6 @@ const ImprovedHero = () => {
           }
           
           .hero-image {
-            margin-top: 280px;
             width: 100%;
           }
         }
