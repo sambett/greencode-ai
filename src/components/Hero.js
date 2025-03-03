@@ -1,182 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const HeroSection = styled(motion.section)`
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  margin: 20px 0 60px 0;
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--background) 100%);
-  border-radius: var(--border-radius);
-  padding: 60px 40px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    padding: 40px 20px;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232ecc71' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-    z-index: 0;
-  }
-`;
-
-const HeroContent = styled.div`
-  flex: 1;
-  position: relative;
-  z-index: 1;
+const ImprovedHero = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
   
-  h1 {
-    font-size: 54px;
-    margin-bottom: 25px;
-    color: var(--dark);
-    line-height: 1.2;
-    font-weight: 800;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // Content for the two slides that will crossfade
+  const slides = [
+    {
+      title: "Code Green, Save Earth",
+      description: "GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.",
+      image: "primary"
+    },
+    {
+      title: "Sustainable Code, Better Future",
+      description: "Small changes in your code can have a big impact. Every optimization reduces carbon emissions and creates a more sustainable digital world.",
+      image: "secondary"
+    }
+  ];
+  
+  // Automatically transition between slides
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide(current => (current === 0 ? 1 : 0));
+    }, 8000); // 8 seconds per slide
     
-    @media (max-width: 768px) {
-      font-size: 36px;
-      text-align: center;
-    }
-  }
+    return () => clearInterval(interval);
+  }, []);
   
-  p {
-    font-size: 18px;
-    line-height: 1.7;
-    color: #555;
-    margin-bottom: 35px;
-    max-width: 90%;
-    
-    @media (max-width: 768px) {
-      font-size: 16px;
-      text-align: center;
-      max-width: 100%;
+  // Animation variants
+  const slideVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 20,
+      transition: { duration: 2 }
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      transition: { duration: 2 }
+    },
+    exit: { 
+      opacity: 0,
+      y: -20,
+      transition: { duration: 2 }
     }
-  }
+  };
   
-  .hero-buttons {
-    display: flex;
-    gap: 15px;
-    
-    @media (max-width: 768px) {
-      justify-content: center;
-      flex-wrap: wrap;
+  // Background animation
+  const bgVariants = {
+    primary: {
+      backgroundImage: "linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(249, 249, 249, 0.8) 100%)",
+      transition: { duration: 3 }
+    },
+    secondary: {
+      backgroundImage: "linear-gradient(135deg, rgba(52, 152, 219, 0.15) 0%, rgba(249, 249, 249, 0.8) 100%)",
+      transition: { duration: 3 }
     }
-  }
-`;
-
-const HeroImageContainer = styled(motion.div)`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
+  };
   
-  @media (max-width: 768px) {
-    margin-top: 30px;
-    width: 100%;
-  }
-  
-  svg {
-    max-width: 100%;
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(46, 204, 113, 0.2));
-  }
-`;
-
-const gradientVariants = {
-  animate: {
-    background: [
-      "linear-gradient(135deg, #eaffef 0%, #f9f9f9 100%)",
-      "linear-gradient(135deg, #f0fff4 0%, #f9f9f9 100%)",
-      "linear-gradient(135deg, #eaffef 0%, #f9f9f9 100%)"
-    ],
-    transition: {
-      duration: 5,
-      repeat: Infinity,
-      repeatType: "reverse"
-    }
-  }
-};
-
-const codeLineVariants = {
-  initial: {
-    opacity: 0,
-    x: -20
-  },
-  animate: i => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: 0.5 + (i * 0.1)
-    }
-  }),
-};
-
-function Hero() {
-  return (
-    <HeroSection
-      initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: 1,
-        ...gradientVariants.animate 
-      }}
-      transition={{ duration: 0.8 }}
-    >
-      <HeroContent>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Code Green, Save Earth
-        </motion.h1>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          GreenCode AI is an intelligent assistant that analyzes your code, identifies energy-intensive patterns, and suggests more sustainable alternatives - without sacrificing performance.
-        </motion.p>
-        
-        <motion.div 
-          className="hero-buttons"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/optimize" className="btn btn-pulse">
-              Try GreenCode AI
-            </Link>
-          </motion.div>
-          
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/docs" className="btn btn-secondary">
-              Learn More
-            </Link>
-          </motion.div>
-        </motion.div>
-      </HeroContent>
-      
-      <HeroImageContainer
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
+  // SVG Elements for each slide
+  const renderSVG = (type) => {
+    if (type === "primary") {
+      return (
         <svg width="500" height="350" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
           {/* Monitor and Frame */}
           <motion.rect 
@@ -214,65 +99,65 @@ function Hero() {
           {/* Code Lines */}
           <motion.rect 
             custom={0}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
             width="250" height="10" x="95" y="70" rx="2" 
             fill="#2ecc71" opacity="0.9" 
           />
           <motion.rect 
             custom={1}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.4, duration: 0.5 }}
             width="200" height="10" x="95" y="90" rx="2" 
             fill="#ecf0f1" opacity="0.5" 
           />
           <motion.rect 
             custom={2}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.6, duration: 0.5 }}
             width="230" height="10" x="95" y="110" rx="2" 
             fill="#ecf0f1" opacity="0.5" 
           />
           <motion.rect 
             custom={3}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.8, duration: 0.5 }}
             width="180" height="10" x="95" y="130" rx="2" 
             fill="#e74c3c" opacity="0.7" 
           />
           <motion.rect 
             custom={4}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.0, duration: 0.5 }}
             width="250" height="10" x="95" y="150" rx="2" 
             fill="#ecf0f1" opacity="0.5" 
           />
           <motion.rect 
             custom={5}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.2, duration: 0.5 }}
             width="150" height="10" x="95" y="170" rx="2" 
             fill="#2ecc71" opacity="0.9" 
           />
           <motion.rect 
             custom={6}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.4, duration: 0.5 }}
             width="200" height="10" x="95" y="190" rx="2" 
             fill="#ecf0f1" opacity="0.5" 
           />
           <motion.rect 
             custom={7}
-            variants={codeLineVariants}
-            initial="initial"
-            animate="animate"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 2.6, duration: 0.5 }}
             width="230" height="10" x="95" y="210" rx="2" 
             fill="#ecf0f1" opacity="0.5" 
           />
@@ -294,7 +179,6 @@ function Hero() {
             
             {/* CO2 Reduction Symbol */}
             <motion.g
-              initial={{ y: 10 }}
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
             >
@@ -304,9 +188,352 @@ function Hero() {
             </motion.g>
           </motion.g>
         </svg>
-      </HeroImageContainer>
-    </HeroSection>
+      );
+    } else {
+      return (
+        <svg width="500" height="350" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+          {/* Earth and Environment Elements */}
+          <motion.circle 
+            cx="250" cy="175" r="120" 
+            fill="#3498db" 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.9, scale: 1 }}
+            transition={{ duration: 1 }}
+          />
+          
+          {/* Land Masses */}
+          <motion.path 
+            d="M180 100 Q210 90 230 110 Q260 120 280 100 Q330 90 350 140 Q330 170 350 200 Q320 230 280 220 Q240 245 200 225 Q170 240 150 220 Q135 200 160 170 Q140 140 180 100"
+            fill="#2ecc71"
+            initial={{ opacity: 0, pathLength: 0 }}
+            animate={{ opacity: 1, pathLength: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+          />
+          
+          <motion.path 
+            d="M220 165 Q240 155 260 165 Q275 185 250 195 Q230 190 220 165"
+            fill="#3498db"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.5 }}
+          />
+          
+          {/* Orbiting Elements */}
+          <motion.g
+            animate={{ 
+              rotate: 360,
+              transition: { duration: 20, repeat: Infinity, ease: "linear" }
+            }}
+            style={{ originX: 0.5, originY: 0.5 }}
+          >
+            <motion.ellipse 
+              cx="250" cy="175" rx="180" ry="60" 
+              fill="none" 
+              stroke="#ecf0f1"
+              strokeWidth="1"
+              opacity="0.3"
+              strokeDasharray="5,5"
+            />
+            
+            {/* Binary Code Satellite */}
+            <motion.g
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+            >
+              <rect x="400" y="155" width="40" height="20" rx="2" fill="#2c3e50" />
+              <text x="405" y="168" fontSize="12" fill="#2ecc71">10110</text>
+            </motion.g>
+          </motion.g>
+          
+          {/* Energy Efficient Code Streams */}
+          <motion.g
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+          >
+            {/* Path 1 */}
+            <motion.path 
+              d="M160 65 Q200 90 250 70 Q300 50 350 80"
+              fill="none"
+              stroke="#2ecc71"
+              strokeWidth="2"
+              strokeDasharray="3,3"
+              animate={{ 
+                y: [0, -5, 0],
+                transition: { duration: 3, repeat: Infinity, repeatType: "reverse" }
+              }}
+            />
+            
+            {/* Path 2 */}
+            <motion.path 
+              d="M180 290 Q220 260 275 275 Q330 290 370 260"
+              fill="none"
+              stroke="#2ecc71"
+              strokeWidth="2"
+              strokeDasharray="3,3"
+              animate={{ 
+                y: [0, 5, 0],
+                transition: { duration: 3, repeat: Infinity, repeatType: "reverse", delay: 0.5 }
+              }}
+            />
+            
+            {/* Code Snippets */}
+            <motion.rect 
+              x="100" y="130" 
+              width="30" height="10" 
+              rx="2" 
+              fill="#2ecc71" 
+              opacity="0.9"
+              animate={{ 
+                x: [100, 450, 100],
+                transition: { duration: 10, repeat: Infinity, ease: "linear" }
+              }}
+            />
+            
+            <motion.rect 
+              x="400" y="210" 
+              width="30" height="10" 
+              rx="2" 
+              fill="#2ecc71" 
+              opacity="0.9"
+              animate={{ 
+                x: [400, 50, 400],
+                transition: { duration: 12, repeat: Infinity, ease: "linear" }
+              }}
+            />
+          </motion.g>
+          
+          {/* "Green" Text */}
+          <motion.text
+            x="250" y="280" 
+            textAnchor="middle" 
+            fontSize="16" 
+            fontWeight="bold"
+            fill="#2c3e50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5, duration: 1 }}
+          >
+            Sustainable Code = Sustainable Planet
+          </motion.text>
+        </svg>
+      );
+    }
+  };
+  
+  return (
+    <motion.section 
+      className="hero-section"
+      animate={activeSlide === 0 ? "primary" : "secondary"}
+      variants={bgVariants}
+    >
+      <div className="hero-content">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSlide}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={slideVariants}
+            className="slide-content"
+          >
+            <h1>{slides[activeSlide].title}</h1>
+            <p>{slides[activeSlide].description}</p>
+            <div className="hero-buttons">
+              <motion.button className="btn btn-pulse" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                Try GreenCode AI
+              </motion.button>
+              <motion.button className="btn btn-secondary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                Learn More
+              </motion.button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      
+      <div className="hero-image">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSlide}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={slideVariants}
+            className="slide-image"
+          >
+            {renderSVG(slides[activeSlide].image)}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      
+      {/* Pagination dots */}
+      <div className="pagination">
+        <motion.div 
+          className={`dot ${activeSlide === 0 ? 'active' : ''}`}
+          onClick={() => setActiveSlide(0)}
+          animate={{ scale: activeSlide === 0 ? 1.2 : 1 }}
+        />
+        <motion.div 
+          className={`dot ${activeSlide === 1 ? 'active' : ''}`}
+          onClick={() => setActiveSlide(1)}
+          animate={{ scale: activeSlide === 1 ? 1.2 : 1 }}
+        />
+      </div>
+      
+      <style jsx>{`
+        .hero-section {
+          display: flex;
+          gap: 40px;
+          align-items: center;
+          margin: 20px 0 60px 0;
+          border-radius: 12px;
+          padding: 60px 40px;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          min-height: 500px;
+        }
+        
+        .hero-content {
+          flex: 1;
+          position: relative;
+          z-index: 1;
+        }
+        
+        .slide-content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+        }
+        
+        h1 {
+          font-size: 54px;
+          margin-bottom: 25px;
+          color: #2c3e50;
+          line-height: 1.2;
+          font-weight: 800;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        p {
+          font-size: 18px;
+          line-height: 1.7;
+          color: #555;
+          margin-bottom: 35px;
+          max-width: 90%;
+        }
+        
+        .hero-buttons {
+          display: flex;
+          gap: 15px;
+        }
+        
+        .btn {
+          padding: 12px 24px;
+          font-size: 16px;
+          font-weight: 600;
+          border-radius: 8px;
+          cursor: pointer;
+          border: none;
+          transition: all 0.3s ease;
+        }
+        
+        .btn-pulse {
+          background-color: #2ecc71;
+          color: white;
+          box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+          animation: pulse 2s infinite;
+        }
+        
+        .btn-secondary {
+          background-color: white;
+          color: #2ecc71;
+          border: 2px solid #2ecc71;
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2); }
+          50% { transform: scale(1.05); box-shadow: 0 8px 15px rgba(46, 204, 113, 0.4); }
+          100% { transform: scale(1); box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2); }
+        }
+        
+        .hero-image {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          z-index: 1;
+          min-height: 350px;
+        }
+        
+        .slide-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .pagination {
+          position: absolute;
+          bottom: 20px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          z-index: 2;
+        }
+        
+        .dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: rgba(46, 204, 113, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+          background-color: #2ecc71;
+        }
+        
+        @media (max-width: 768px) {
+          .hero-section {
+            flex-direction: column;
+            padding: 40px 20px;
+          }
+          
+          h1 {
+            font-size: 36px;
+            text-align: center;
+          }
+          
+          p {
+            font-size: 16px;
+            text-align: center;
+            max-width: 100%;
+          }
+          
+          .hero-buttons {
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          
+          .hero-image {
+            margin-top: 280px;
+            width: 100%;
+          }
+        }
+      `}</style>
+    </motion.section>
   );
-}
+};
 
-export default Hero;
+export default ImprovedHero;
