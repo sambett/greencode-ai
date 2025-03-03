@@ -389,9 +389,6 @@ const ImprovedMetricsComponent = () => {
           grid-template-columns: repeat(2, 1fr);
           gap: 30px;
           margin-bottom: 20px;
-          max-width: 900px;
-          margin-left: auto;
-          margin-right: auto;
         }
         
         .metric-card {
@@ -401,8 +398,8 @@ const ImprovedMetricsComponent = () => {
           box-shadow: 0 10px 30px rgba(46, 204, 113, 0.15);
           position: relative;
           overflow: hidden;
-          aspect-ratio: 1 / 1;
-          min-height: 300px;
+          height: 100%;
+          min-height: 220px;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -596,7 +593,6 @@ const ImprovedMetricsComponent = () => {
         @media (max-width: 768px) {
           .metrics-grid {
             grid-template-columns: 1fr;
-            max-width: 350px;
           }
           
           .metric-title {
@@ -611,10 +607,6 @@ const ImprovedMetricsComponent = () => {
             min-width: 180px;
             white-space: normal;
             font-size: 12px;
-          }
-          
-          .metric-card {
-            min-height: 280px;
           }
         }
       `}</style>
