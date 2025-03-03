@@ -336,7 +336,7 @@ const ImprovedMetricsComponent = () => {
               >
                 {co2Saved} g
                 {hoveredMetric === 'co2' && (
-                  <div className="tooltip" style={{backgroundColor: tooltipColors.co2}}>
+                  <div className="tooltip co2-tooltip" style={{backgroundColor: tooltipColors.co2}}>
                     <div className="tooltip-icon">🌱</div>
                     {metricExplanations.co2}
                   </div>
@@ -389,6 +389,9 @@ const ImprovedMetricsComponent = () => {
           grid-template-columns: repeat(2, 1fr);
           gap: 30px;
           margin-bottom: 20px;
+          max-width: 900px;
+          margin-left: auto;
+          margin-right: auto;
         }
         
         .metric-card {
@@ -398,8 +401,8 @@ const ImprovedMetricsComponent = () => {
           box-shadow: 0 10px 30px rgba(46, 204, 113, 0.15);
           position: relative;
           overflow: hidden;
-          height: 100%;
-          min-height: 220px;
+          aspect-ratio: 1 / 1;
+          min-height: 300px;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -516,6 +519,21 @@ const ImprovedMetricsComponent = () => {
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        /* Special positioning for CO2 tooltip to prevent cutoff */
+        .metric-value-container:has([class*="co2"]) .tooltip,
+        .metric-value-container:nth-child(2) .tooltip {
+          bottom: auto;
+          top: -75px;
+        }
+        
+        /* Arrow pointing down for CO2 tooltip */
+        .metric-value-container:has([class*="co2"]) .tooltip:after,
+        .metric-value-container:nth-child(2) .tooltip:after {
+          bottom: -16px;
+          top: auto;
+          border-color: rgba(231, 76, 60, 0.95) transparent transparent transparent;
+        }
+        
         .tooltip.original {
           background-color: rgba(52, 152, 219, 0.95);
         }
@@ -593,6 +611,7 @@ const ImprovedMetricsComponent = () => {
         @media (max-width: 768px) {
           .metrics-grid {
             grid-template-columns: 1fr;
+            max-width: 350px;
           }
           
           .metric-title {
@@ -607,6 +626,10 @@ const ImprovedMetricsComponent = () => {
             min-width: 180px;
             white-space: normal;
             font-size: 12px;
+          }
+          
+          .metric-card {
+            min-height: 280px;
           }
         }
       `}</style>
