@@ -140,7 +140,7 @@ const ImprovedOptimizedCodeBlock = () => {
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
           position: relative;
           transition: all 0.3s ease;
-          background-color: #1a1a1a;
+          background-color: #1e293b; /* Dark blue shade instead of black */
         }
         
         .optimized-editor-wrapper:hover {
@@ -244,6 +244,24 @@ const ImprovedOptimizedCodeBlock = () => {
           overflow: auto;
           font-family: 'Courier New', monospace;
           padding: 40px 15px 15px 15px;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(76, 175, 80, 0.5) rgba(30, 41, 59, 0.1);
+        }
+        
+        /* Custom scrollbar for Webkit browsers */
+        .code-editor::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        
+        .code-editor::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.1);
+          border-radius: 4px;
+        }
+        
+        .code-editor::-webkit-scrollbar-thumb {
+          background-color: rgba(76, 175, 80, 0.5);
+          border-radius: 4px;
         }
         
         pre {
@@ -288,7 +306,7 @@ const ImprovedOptimizedCodeBlock = () => {
 };
 
 // This would be your real component using the improved optimized code block
-const CodeEditor = () => {
+const CodeEditorWithImprovedOptimization = () => {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [optimizationState, setOptimizationState] = useState('initial');
   
@@ -371,7 +389,7 @@ const CodeEditor = () => {
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
           position: relative;
           transition: all 0.3s ease;
-          background-color: #1a1a1a;
+          background-color: #1e293b; /* Dark blue shade instead of black */
         }
         
         .editor-wrapper:hover {
@@ -460,4 +478,4 @@ const CodeEditor = () => {
   );
 };
 
-export default CodeEditor;
+export default CodeEditorWithImprovedOptimization;
