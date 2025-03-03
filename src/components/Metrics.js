@@ -12,10 +12,10 @@ const ImprovedMetricsComponent = () => {
   
   // Tooltip content for each metric
   const metricExplanations = {
-    energy: "2.8 J energy saved ≈ Saving 1 minute of computer idle time",
-    co2: "1.5 g CO2 saved ≈ Reducing the carbon footprint of 5 minutes of internet browsing",
-    original: "GreenScore™ measures code efficiency on a scale of 0-100",
-    optimized: "Higher score means more sustainable, energy-efficient code"
+    energy: "2.8 J energy saved ≈\nSaving 1 minute of computer idle time",
+    co2: "1.5 g CO2 saved ≈\nReducing the carbon footprint of 5 minutes of internet browsing",
+    original: "GreenScore™ measures code efficiency\non a scale of 0-100",
+    optimized: "Higher score means more sustainable,\nenergy-efficient code"
   };
   
   // Define tooltip colors for each metric
@@ -389,9 +389,6 @@ const ImprovedMetricsComponent = () => {
           grid-template-columns: repeat(2, 1fr);
           gap: 30px;
           margin-bottom: 20px;
-          max-width: 900px;
-          margin-left: auto;
-          margin-right: auto;
         }
         
         .metric-card {
@@ -401,8 +398,8 @@ const ImprovedMetricsComponent = () => {
           box-shadow: 0 10px 30px rgba(46, 204, 113, 0.15);
           position: relative;
           overflow: hidden;
-          aspect-ratio: 1 / 1;
-          min-height: 300px;
+          height: 100%;
+          min-height: 220px;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -510,13 +507,14 @@ const ImprovedMetricsComponent = () => {
           font-size: 14px;
           font-weight: 500;
           letter-spacing: 0.2px;
-          white-space: nowrap;
+          white-space: pre-line;
           z-index: 100;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
           text-align: center;
           animation: fadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           min-width: 220px;
           border: 1px solid rgba(255, 255, 255, 0.1);
+          max-width: 240px;
         }
         
         /* Special positioning for CO2 tooltip to prevent cutoff */
@@ -611,7 +609,6 @@ const ImprovedMetricsComponent = () => {
         @media (max-width: 768px) {
           .metrics-grid {
             grid-template-columns: 1fr;
-            max-width: 350px;
           }
           
           .metric-title {
@@ -624,12 +621,7 @@ const ImprovedMetricsComponent = () => {
           
           .tooltip {
             min-width: 180px;
-            white-space: normal;
             font-size: 12px;
-          }
-          
-          .metric-card {
-            min-height: 280px;
           }
         }
       `}</style>
