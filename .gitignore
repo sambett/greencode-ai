@@ -1,0 +1,45 @@
+# Node.js files 
+node_modules/ 
+npm-debug.log* 
+yarn-debug.log* 
+yarn-error.log* 
+# Environment variables 
+.env 
+.env.local 
+.env.development.local 
+.env.test.local 
+.env.production.local 
+# Python 
+__pycache__/ 
+*.py[cod] 
+*$py.class 
+.Python 
+*.so 
+# Distribution / packaging 
+build/ 
+develop-eggs/ 
+dist/ 
+downloads/ 
+eggs/ 
+.eggs/ 
+lib/ 
+lib64/ 
+# Machine Learning Models - CRITICAL 
+backend/models/ 
+models/ 
+**/*.bin 
+**/*.h5 
+**/*.pt 
+**/*.pth 
+**/*.onnx 
+**/*.safetensors 
+**/*.model 
+# IDE specific files 
+.idea/ 
+.vscode/ 
+*.swp 
+*.swo 
+# OS specific files 
+.DS_Store 
+Thumbs.db 
+desktop.ini 

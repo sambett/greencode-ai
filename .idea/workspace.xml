@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7eadb17a-ea6f-49c8-9b12-7eef4ede0e83" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/greencode-ai/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/GreenCodeAI-Postman.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/Simplified_Plan_for_GreenCode_AI.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/Procfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/emissions.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/run.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/setup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/test_huggingface.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/ai_optimizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/algorithm_analyzer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/analysis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/emissions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/optimization.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/backend/utils/optimization_variants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/doc2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/FRONTEND_INTEGRATION.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/StarCoder15B_Remote_Optimization.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/code_analysis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/code_optimization.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/energy_measurement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/model_loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/score_calculation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/greencode-ai-backend/start_backend.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/src/components/CodeEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/greencode-ai/src/components/CodeEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greencode-ai/vercel.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/greencode-ai" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2vQ4z5MQzg3M6MTFx8rXw2T4PsV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SelmaB/Desktop/greencode-ai&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7eadb17a-ea6f-49c8-9b12-7eef4ede0e83" name="Changes" comment="" />
+      <created>1744064222287</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744064222287</updated>
+    </task>
+    <servers />
+  </component>
+</project>
