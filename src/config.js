@@ -8,7 +8,7 @@ const config = {
   api: {
     // Base URL for API requests
     // Use environment variable if available, otherwise fallback to development URL
-    baseUrl: process.env.REACT_APP_API_URL || 'https://8e44-35-232-228-47.ngrok-free.app',
+    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:5000',
     
     // API endpoints
     endpoints: {

@@ -15,7 +15,7 @@ load_dotenv()
 class AIOptimizer:
     """Uses AI models to suggest context-aware optimizations for code."""
     
-    def __init__(self, model_name="bigcode/starcoderbase-1b"):
+    def __init__(self, model_name="bigcode/starcoderbase-3b"):
         """
         Initialize the AI optimizer.
         
@@ -57,7 +57,26 @@ class AIOptimizer:
                 # Use the token if available, otherwise use the saved token
                 if self.hf_token:
                     print("Using token from environment variables")
-                    self._model = pipeline("text-generation", model=self.model_name, use_auth_token=self.hf_token)
+                    # Try to use locally cached model first
+                try:
+                    local_model_path = "./models/models--bigcode--starcoderbase-3b"
+                    if os.path.exists(local_model_path):
+                        print("Using locally cached model")
+                        self._model = pipeline("text-generation", model=local_model_path)
+                    else:
+                        print("Downloading model from Hugging Face")
+                        self._model = pipeline("text-generation", model=self.model_name, use_auth_token=self.hf_token)
+                except Exception as e:
+                    print(f"Error loading model: {e}")
+                    # Fall back to smaller model if available
+                    smaller_model_path = "./models/models--bigcode--starcoderbase-1b"
+                    if os.path.exists(smaller_model_path):
+                        print("Falling back to smaller local model")
+                        self._model = pipeline("text-generation", model=smaller_model_path)
+                    else:
+                        # Last resort - download the smaller model
+                        print("Falling back to smaller remote model")
+                        self._model = pipeline("text-generation", model="bigcode/starcoderbase-1b", use_auth_token=self.hf_token)
                 else:
                     print("Using saved Hugging Face token")
                     self._model = pipeline("text-generation", model=self.model_name, use_auth_token=True)

@@ -9,47 +9,63 @@ This is the backend for the GreenCode AI application, which analyzes code for en
 - 📊 Energy consumption and CO2 emissions estimation
 - 🚀 RESTful API for seamless frontend integration
 
-## Setup and Installation
+## Model Files
+
+Due to GitHub file size limitations, the large model files are not included in the repository. There are two ways to handle this:
+
+1. **Automatic Download**: The application will automatically download models when first used.
+2. **Manual Setup**: Run the setup script to download models in advance:
+   ```bash
+   python setup_model.py
+   ```
+
+If you already have the StarCoder model cached on your system, the application will find and use it automatically.
+
+### Model Location
+
+The models are typically cached in:
+- Windows: `C:\Users\<username>\.cache\huggingface\hub`
+- Linux/Mac: `~/.cache/huggingface/hub`
+
+## Simplified Running Instructions
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Conda environment 'greencode' with all dependencies installed
+- StarCoder model already cached locally
 
-### Option 1: Quick Setup (Windows)
+### Quick Start
 
-1. Run the setup script to create a virtual environment and install dependencies:
-   ```
-   setup.bat
-   ```
-
-2. Start the server:
-   ```
-   run.bat
-   ```
-
-3. The API will be available at http://localhost:5000
-
-### Option 2: Manual Setup
-
-1. Create a virtual environment:
+1. **Verify Cached Model (One-Time Setup)**
    ```bash
-   python -m venv venv
+   cd C:\Users\SelmaB\Desktop\greencode-ai\greencode-ai\backend
+   python test_cached_model.py
    ```
+   This verifies the model is properly cached and working.
 
-2. Activate the virtual environment:
-   - Windows: `venv\Scripts\activate`
-   - Mac/Linux: `source venv/bin/activate`
-
-3. Install dependencies:
+2. **Start the Backend**
    ```bash
-   pip install -r requirements.txt
+   # Make sure your 'greencode' conda environment is active
+   cd C:\Users\SelmaB\Desktop\greencode-ai\greencode-ai\backend
+   python run_simple.py
    ```
+   This starts the Flask server on http://localhost:5000 using only cached models.
 
-4. Start the server:
+3. **Start the Frontend**
+   In a new terminal:
    ```bash
-   python app.py
+   cd C:\Users\SelmaB\Desktop\greencode-ai\greencode-ai
+   npm start
    ```
+   This launches the React app at http://localhost:3000.
+
+## Testing with Postman
+
+1. Open Postman and import: `GreenCodeAI-Postman.json` from the project root
+2. Change the collection variable `baseUrl` to: `http://localhost:5000`
+3. Test endpoints:
+   - Health check: `GET {{baseUrl}}/health`
+   - Code analysis: `POST {{baseUrl}}/analyze`
 
 ## API Endpoints
 
@@ -87,40 +103,15 @@ This is the backend for the GreenCode AI application, which analyzes code for en
   }
   ```
 
+## Project Structure
+
+- `/backend` - Contains the Flask API and cached model
+- `/src` - React frontend components
+- `/greencode-ai-backend` - Alternative Google Colab implementation (ignore for local development)
+
 ## Technology Stack
 
 - **Flask**: Lightweight web framework
 - **StarCoder**: AI model for code optimization
 - **CodeCarbon**: Tool for estimating carbon emissions
-- **Flask-CORS**: For cross-origin resource sharing
-- **Gunicorn**: WSGI HTTP server for deployment
-
-## Deployment
-
-This backend can be deployed to various platforms:
-
-### Heroku
-```bash
-heroku create greencode-ai-backend
-git subtree push --prefix backend heroku main
-```
-
-### Vercel
-Configure the `vercel.json` file and deploy using the Vercel CLI:
-```bash
-vercel --prod
-```
-
-## Environment Variables
-
-You can customize the server by setting the following environment variables in a `.env` file:
-
-- `FLASK_APP`: The application entry point (default: app.py)
-- `FLASK_ENV`: The environment to run in (development/production)
-- `FLASK_DEBUG`: Enable debug mode (0/1)
-- `PORT`: The port to run the server on (default: 5000)
-- `CORS_ORIGINS`: Allowed origins for CORS (comma-separated list)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- **React**: Frontend framework

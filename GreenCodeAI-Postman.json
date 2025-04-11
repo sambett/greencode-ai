@@ -183,7 +183,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://8e44-35-232-228-47.ngrok-free.app",
+			"value": "http://localhost:5000",
 			"type": "string",
 			"description": "Base URL for the API"
 		}
