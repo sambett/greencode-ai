@@ -1,0 +1,68 @@
+# API Keys and Sensitive Files
+.env
+**/.env
+.env.*
+**/.env.*
+restart_backend.bat
+run_with_chatgpt_backend.bat
+start_app_fixed.bat
+start_greencode.py
+start_greencode_chatgpt.bat
+start_with_carbon.bat
+start_with_carbon_simple.bat
+**/backend/.env*
+
+# Backend directories - don't commit to GitHub
+/backend/
+**/backend/
+/greencode-chatgpt/
+**/greencode-chatgpt/
+
+# Node.js files 
+node_modules/ 
+npm-debug.log* 
+yarn-debug.log* 
+yarn-error.log*
+
+# Python 
+__pycache__/ 
+*.py[cod] 
+*$py.class 
+.Python 
+*.so 
+
+# Distribution / packaging 
+build/ 
+develop-eggs/ 
+dist/ 
+downloads/ 
+eggs/ 
+.eggs/ 
+lib/ 
+lib64/ 
+
+# Machine Learning Models
+**/*.bin 
+**/*.h5 
+**/*.pt 
+**/*.pth 
+**/*.onnx 
+**/*.safetensors 
+**/*.model 
+**/pytorch_model.bin
+**/model.safetensors
+
+# Allow example files
+!/examples/
+!/examples/**
+
+# IDE specific files 
+.idea/ 
+.vscode/ 
+*.swp 
+*.swo 
+
+# OS specific files 
+.DS_Store 
+Thumbs.db 
+desktop.ini

@@ -1,0 +1,8 @@
+# Hugging Face API Key
+HUGGINGFACE_API_KEY=your_huggingface_api_key_here
+
+# Which API provider to use: "huggingface" or "openai"
+API_PROVIDER=huggingface
+
+# No need for OpenAI key since we're using Hugging Face
+# OPENAI_API_KEY=

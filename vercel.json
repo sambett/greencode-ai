@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd front && npm run build",
+  "outputDirectory": "front/build",
+  "framework": "create-react-app",
+  "env": {
+    "NODE_OPTIONS": "--openssl-legacy-provider"
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--openssl-legacy-provider"
+    }
+  }
+}
