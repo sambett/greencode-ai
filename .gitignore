@@ -10,6 +10,7 @@ start_greencode.py
 start_greencode_chatgpt.bat
 start_with_carbon.bat
 start_with_carbon_simple.bat
+deploy_to_github.bat
 **/backend/.env*
 
 # Backend directories - don't commit to GitHub
